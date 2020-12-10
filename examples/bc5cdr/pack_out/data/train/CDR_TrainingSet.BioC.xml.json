@@ -1,0 +1,376 @@
+{
+  "py/object": "forte.data.data_pack.DataPack",
+  "py/state": {
+    "creation_records": {
+      "forte.data.readers.bc5cdr_reader.BC5CDRReader": {
+        "py/set": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8,
+          9,
+          10,
+          11,
+          12,
+          13,
+          14,
+          15,
+          16
+        ]
+      }
+    },
+    "field_records": {},
+    "links": [],
+    "groups": [],
+    "meta": {
+      "py/object": "forte.data.data_pack.Meta",
+      "py/state": {
+        "pack_name": "data/train/CDR_TrainingSet.BioC.xml",
+        "_pack_id": 4450078134951851090996700678355484242,
+        "language": "eng",
+        "span_unit": "character"
+      }
+    },
+    "_text": "Effects of uninephrectomy and high protein feeding on lithium -induced chronic renal failure in rats ",
+    "annotations": [
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 7
+          },
+          "_tid": 0,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Sentence",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 100
+          },
+          "_tid": 15,
+          "speaker": null,
+          "part_id": null,
+          "sentiment": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Document",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 101
+          },
+          "_tid": 16,
+          "sentiment": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 8,
+            "end": 10
+          },
+          "_tid": 1,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 11,
+            "end": 25
+          },
+          "_tid": 2,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 26,
+            "end": 29
+          },
+          "_tid": 3,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 30,
+            "end": 34
+          },
+          "_tid": 4,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 35,
+            "end": 42
+          },
+          "_tid": 5,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 43,
+            "end": 50
+          },
+          "_tid": 6,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 51,
+            "end": 53
+          },
+          "_tid": 7,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 54,
+            "end": 61
+          },
+          "_tid": 8,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "B-Chemical",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 62,
+            "end": 70
+          },
+          "_tid": 9,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 71,
+            "end": 78
+          },
+          "_tid": 10,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "B-Disease",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 79,
+            "end": 84
+          },
+          "_tid": 11,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "I-Disease",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 85,
+            "end": 92
+          },
+          "_tid": 12,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "I-Disease",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 93,
+            "end": 95
+          },
+          "_tid": 13,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 96,
+            "end": 100
+          },
+          "_tid": 14,
+          "pos": null,
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      }
+    ],
+    "generics": [],
+    "replace_back_operations": [],
+    "processed_original_spans": [],
+    "orig_text_len": 101,
+    "serialization": {
+      "next_id": 17
+    }
+  }
+}

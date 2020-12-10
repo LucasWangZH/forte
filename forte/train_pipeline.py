@@ -64,10 +64,17 @@ class TrainPipeline:
         # initialize the pipeline after prepare step, since prepare will update
         # the resources
         self.trainer.initialize(self.resource, self.configs)
+        #TODO add assign manager here for trainer,predictor and evaluator, test if will cause bugs
+        self.trainer.assign_manager(self.preprocessors[0]._process_manager)
         if self.predictor is not None:
             logger.info("Initializing the predictor")
-            self.predictor.initialize(self.resource, self.configs)
-
+            self.predictor.initialize(resources=self.resource, configs=self.configs)
+            self.predictor.assign_manager(self.preprocessors[0]._process_manager)
+        try:
+            if self.evaluator is not None:
+                self.evaluator.assign_manager(self.preprocessors[0]._process_manager)
+        except:
+            pass
         logging.info("The pipeline is training")
         self.train()
         self.finish()
@@ -76,8 +83,13 @@ class TrainPipeline:
         prepare_pl = Pipeline()
         prepare_pl.set_reader(self.train_reader)
         for p in self.preprocessors:
-            prepare_pl.add(p)
+            # prepare_pl.add(p)
+            # TODO: ner debug, preprocessor needs config
+            prepare_pl.add(p, config=self.configs["preprocessor"])
+            # prepare_pl.add(p)
         prepare_pl.run(self.configs.config_data.train_path)
+        # TODO: ner debug, transfer back the resource from prepare_pl to train_pl
+        self.resource.update(**prepare_pl.resource.resources)
 
     def train(self):
         epoch = 0
@@ -101,21 +113,31 @@ class TrainPipeline:
 
     def _validate(self, epoch: int):
         validation_result = {"epoch": epoch}
-
+        batch_size = 16
+        current_batch_size = 0
         if self.predictor is not None:
             for pack in self.dev_reader.iter(
                     self.configs.config_data.val_path):
                 predicted_pack = pack.view()
-                self.predictor.process(predicted_pack)
-                self.evaluator.consume_next(predicted_pack, pack)
+                current_batch_size += 1
+                if current_batch_size == batch_size:
+                    self.predictor.process(predicted_pack)
+                    #TODO passed a epoch in maybe need to change back
+                    self.evaluator.consume_next(predicted_pack, pack,epoch)
+                    current_batch_size = 0
             validation_result["eval"] = self.evaluator.get_result()
 
+        current_batch_test_size = 0
         if self.evaluator is not None:
             for pack in self.dev_reader.iter(
                     self.configs.config_data.test_path):
                 predicted_pack = pack.view()
-                self.predictor.process(predicted_pack)
-                self.evaluator.consume_next(predicted_pack, pack)
+                current_batch_test_size += 1
+                if current_batch_test_size == batch_size:
+                    self.predictor.process(predicted_pack)
+                # TODO passed a epoch in maybe need to change back
+                    self.evaluator.consume_next(predicted_pack, pack,epoch)
+                    current_batch_test_size = 0
             validation_result["test"] = self.evaluator.get_result()
 
         return validation_result

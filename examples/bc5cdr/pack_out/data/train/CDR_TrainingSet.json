@@ -1,0 +1,282 @@
+{
+  "py/object": "forte.data.data_pack.DataPack",
+  "py/state": {
+    "creation_records": {
+      "forte.data.readers.bc5cdr_reader.BC5CDRReader": {
+        "py/set": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6,
+          7,
+          8
+        ]
+      },
+      "forte.processors.nltk_processors.NLTKNER": {
+        "py/set": [
+          15
+        ]
+      }
+    },
+    "field_records": {
+      "forte.processors.nltk_processors.NLTKPOSTagger": {
+        "py/set": [
+          {
+            "py/tuple": [
+              4,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              2,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              0,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              3,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              5,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              6,
+              "pos"
+            ]
+          },
+          {
+            "py/tuple": [
+              1,
+              "pos"
+            ]
+          }
+        ]
+      },
+      "forte.processors.nltk_processors.NLTKNER": {
+        "py/set": [
+          {
+            "py/tuple": [
+              15,
+              "ner_type"
+            ]
+          }
+        ]
+      }
+    },
+    "links": [],
+    "groups": [],
+    "meta": {
+      "py/object": "forte.data.data_pack.Meta",
+      "py/state": {
+        "pack_name": "data/train/CDR_TrainingSet.BioC.xml",
+        "_pack_id": 126017555651680477540299002543741418277,
+        "language": "eng",
+        "span_unit": "character"
+      }
+    },
+    "_text": "Naloxone reverses the antihypertensive effect of clonidine ",
+    "annotations": [
+      {
+        "py/object": "ft.onto.base_ontology.EntityMention",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 8
+          },
+          "_tid": 15,
+          "ner_type": "GPE"
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 8
+          },
+          "_tid": 0,
+          "pos": "NN",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "B_CHE",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Sentence",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 58
+          },
+          "_tid": 7,
+          "speaker": null,
+          "part_id": null,
+          "sentiment": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Document",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 0,
+            "end": 59
+          },
+          "_tid": 8,
+          "sentiment": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 9,
+            "end": 17
+          },
+          "_tid": 1,
+          "pos": "VBZ",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 18,
+            "end": 21
+          },
+          "_tid": 2,
+          "pos": "DT",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 22,
+            "end": 38
+          },
+          "_tid": 3,
+          "pos": "JJ",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 39,
+            "end": 45
+          },
+          "_tid": 4,
+          "pos": "NN",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 46,
+            "end": 48
+          },
+          "_tid": 5,
+          "pos": "IN",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "O",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      },
+      {
+        "py/object": "ft.onto.base_ontology.Token",
+        "py/state": {
+          "_span": {
+            "py/object": "forte.data.span.Span",
+            "begin": 49,
+            "end": 58
+          },
+          "_tid": 6,
+          "pos": "NN",
+          "ud_xpos": null,
+          "lemma": null,
+          "chunk": null,
+          "ner": "B_CHE",
+          "sense": null,
+          "is_root": null,
+          "ud_features": {},
+          "ud_misc": {}
+        }
+      }
+    ],
+    "generics": [],
+    "replace_back_operations": [],
+    "processed_original_spans": [],
+    "orig_text_len": 59,
+    "serialization": {
+      "next_id": 16
+    }
+  }
+}

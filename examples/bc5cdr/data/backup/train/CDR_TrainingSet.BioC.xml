@@ -1,0 +1,372 @@
+<?xml version='1.0' encoding='UTF-8'?><!DOCTYPE collection SYSTEM 'BioC.dtd'>
+<collection>
+<source>PubTator</source>
+<date>0/0/0</date>
+<key>PubTator.key</key>
+<document>
+<id>227508</id>
+<passage>
+<infon key="type">title</infon>
+<offset>0</offset>
+<text>Naloxone reverses the antihypertensive effect of clonidine.</text>
+<annotation id='0'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D009270</infon>
+<location offset='0' length='8' />
+<text>Naloxone</text>
+</annotation>
+<annotation id='1'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='49' length='9' />
+<text>clonidine</text>
+</annotation>
+</passage>
+<passage>
+<infon key="type">abstract</infon>
+<offset>60</offset>
+<text>In unanesthetized, spontaneously hypertensive rats the decrease in blood pressure and heart rate produced by intravenous clonidine, 5 to 20 micrograms/kg, was inhibited or reversed by nalozone, 0.2 to 2 mg/kg. The hypotensive effect of 100 mg/kg alpha-methyldopa was also partially reversed by naloxone. Naloxone alone did not affect either blood pressure or heart rate. In brain membranes from spontaneously hypertensive rats clonidine, 10(-8) to 10(-5) M, did not influence stereoselective binding of [3H]-naloxone (8 nM), and naloxone, 10(-8) to 10(-4) M, did not influence clonidine-suppressible binding of [3H]-dihydroergocryptine (1 nM). These findings indicate that in spontaneously hypertensive rats the effects of central alpha-adrenoceptor stimulation involve activation of opiate receptors. As naloxone and clonidine do not appear to interact with the same receptor site, the observed functional antagonism suggests the release of an endogenous opiate by clonidine or alpha-methyldopa and the possible role of the opiate in the central control of sympathetic tone.</text>
+<annotation id='2'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D006973</infon>
+<location offset='93' length='12' />
+<text>hypertensive</text>
+</annotation>
+<annotation id='3'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='181' length='9' />
+<text>clonidine</text>
+</annotation>
+<annotation id='4'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">-1</infon>
+<location offset='244' length='8' />
+<text>nalozone</text>
+</annotation>
+<annotation id='5'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D007022</infon>
+<location offset='274' length='11' />
+<text>hypotensive</text>
+</annotation>
+<annotation id='6'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D008750</infon>
+<location offset='306' length='16' />
+<text>alpha-methyldopa</text>
+</annotation>
+<annotation id='7'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D009270</infon>
+<location offset='354' length='8' />
+<text>naloxone</text>
+</annotation>
+<annotation id='8'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D009270</infon>
+<location offset='364' length='8' />
+<text>Naloxone</text>
+</annotation>
+<annotation id='9'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D006973</infon>
+<location offset='469' length='12' />
+<text>hypertensive</text>
+</annotation>
+<annotation id='10'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='487' length='9' />
+<text>clonidine</text>
+</annotation>
+<annotation id='11'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">-1</infon>
+<location offset='563' length='13' />
+<text>[3H]-naloxone</text>
+</annotation>
+<annotation id='12'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D009270</infon>
+<location offset='589' length='8' />
+<text>naloxone</text>
+</annotation>
+<annotation id='13'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='637' length='9' />
+<text>clonidine</text>
+</annotation>
+<annotation id='14'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">-1</infon>
+<location offset='671' length='24' />
+<text>[3H]-dihydroergocryptine</text>
+</annotation>
+<annotation id='15'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D006973</infon>
+<location offset='750' length='12' />
+<text>hypertensive</text>
+</annotation>
+<annotation id='16'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D009270</infon>
+<location offset='865' length='8' />
+<text>naloxone</text>
+</annotation>
+<annotation id='17'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='878' length='9' />
+<text>clonidine</text>
+</annotation>
+<annotation id='18'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D003000</infon>
+<location offset='1026' length='9' />
+<text>clonidine</text>
+</annotation>
+<annotation id='19'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D008750</infon>
+<location offset='1039' length='16' />
+<text>alpha-methyldopa</text>
+</annotation>
+</passage>
+<relation id='R0'>
+<infon key="relation">CID</infon>
+<infon key="Chemical">D008750</infon>
+<infon key="Disease">D007022</infon>
+</relation>
+</document>
+<document>
+<id>354896</id>
+<passage>
+<infon key="type">title</infon>
+<offset>0</offset>
+<text>Lidocaine-induced cardiac asystole.</text>
+<annotation id='0'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D008012</infon>
+<location offset='0' length='9' />
+<text>Lidocaine</text>
+</annotation>
+<annotation id='1'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D006323</infon>
+<location offset='18' length='16' />
+<text>cardiac asystole</text>
+</annotation>
+</passage>
+<passage>
+<infon key="type">abstract</infon>
+<offset>36</offset>
+<text>Intravenous administration of a single 50-mg bolus of lidocaine in a 67-year-old man resulted in profound depression of the activity of the sinoatrial and atrioventricular nodal pacemakers. The patient had no apparent associated conditions which might have predisposed him to the development of bradyarrhythmias; and, thus, this probably represented a true idiosyncrasy to lidocaine.</text>
+<annotation id='2'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D008012</infon>
+<location offset='90' length='9' />
+<text>lidocaine</text>
+</annotation>
+<annotation id='3'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D003866</infon>
+<location offset='142' length='10' />
+<text>depression</text>
+</annotation>
+<annotation id='4'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D001919</infon>
+<location offset='331' length='16' />
+<text>bradyarrhythmias</text>
+</annotation>
+<annotation id='5'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D008012</infon>
+<location offset='409' length='9' />
+<text>lidocaine</text>
+</annotation>
+</passage>
+<relation id='R0'>
+<infon key="relation">CID</infon>
+<infon key="Chemical">D008012</infon>
+<infon key="Disease">D006323</infon>
+</relation>
+</document>
+<document>
+<id>435349</id>
+<passage>
+<infon key="type">title</infon>
+<offset>0</offset>
+<text>Suxamethonium infusion rate and observed fasciculations. A dose-response study.</text>
+<annotation id='0'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D013390</infon>
+<location offset='0' length='13' />
+<text>Suxamethonium</text>
+</annotation>
+<annotation id='1'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='41' length='14' />
+<text>fasciculations</text>
+</annotation>
+</passage>
+<passage>
+<infon key="type">abstract</infon>
+<offset>80</offset>
+<text>Suxamethonium chloride (Sch) was administered i.v. to 36 adult males at six rates: 0.25 mg s-1 to 20 mg s-1. The infusion was discontinued either when there was no muscular response to tetanic stimulation of the ulnar nerve or when Sch 120 mg was exceeded. Six additional patients received a 30-mg i.v. bolus dose. Fasciculations in six areas of the body were scored from 0 to 3 and summated as a total fasciculation score. The times to first fasciculation, twitch suppression and tetanus suppression were inversely related to the infusion rates. Fasciculations in the six areas and the total fasciculation score were related directly to the rate of infusion. Total fasciculation scores in the 30-mg bolus group and the 5-mg s-1 and 20-mg s-1 infusion groups were not significantly different.</text>
+<annotation id='2'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D013390</infon>
+<location offset='80' length='22' />
+<text>Suxamethonium chloride</text>
+</annotation>
+<annotation id='3'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D013390</infon>
+<location offset='104' length='3' />
+<text>Sch</text>
+</annotation>
+<annotation id='4'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D013746</infon>
+<location offset='265' length='7' />
+<text>tetanic</text>
+</annotation>
+<annotation id='5'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D013390</infon>
+<location offset='312' length='3' />
+<text>Sch</text>
+</annotation>
+<annotation id='6'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='395' length='14' />
+<text>Fasciculations</text>
+</annotation>
+<annotation id='7'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='483' length='13' />
+<text>fasciculation</text>
+</annotation>
+<annotation id='8'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='523' length='13' />
+<text>fasciculation</text>
+</annotation>
+<annotation id='9'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D013746</infon>
+<location offset='538' length='6' />
+<text>twitch</text>
+</annotation>
+<annotation id='10'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D013746</infon>
+<location offset='561' length='7' />
+<text>tetanus</text>
+</annotation>
+<annotation id='11'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='627' length='14' />
+<text>Fasciculations</text>
+</annotation>
+<annotation id='12'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='673' length='13' />
+<text>fasciculation</text>
+</annotation>
+<annotation id='13'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D005207</infon>
+<location offset='746' length='13' />
+<text>fasciculation</text>
+</annotation>
+</passage>
+<relation id='R0'>
+<infon key="relation">CID</infon>
+<infon key="Chemical">D013390</infon>
+<infon key="Disease">D005207</infon>
+</relation>
+</document>
+<document>
+<id>603022</id>
+<passage>
+<infon key="type">title</infon>
+<offset>0</offset>
+<text>Galanthamine hydrobromide, a longer acting anticholinesterase drug, in the treatment of the central effects of scopolamine (Hyoscine).</text>
+<annotation id='0'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D005702</infon>
+<location offset='0' length='25' />
+<text>Galanthamine hydrobromide</text>
+</annotation>
+<annotation id='1'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D012601</infon>
+<location offset='111' length='11' />
+<text>scopolamine</text>
+</annotation>
+<annotation id='2'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D012601</infon>
+<location offset='124' length='8' />
+<text>Hyoscine</text>
+</annotation>
+</passage>
+<passage>
+<infon key="type">abstract</infon>
+<offset>135</offset>
+<text>Galanthamine hydrobromide, an anticholinesterase drug capable of penetrating the blood-brain barrier, was used in a patient demonstrating central effects of scopolamine (hyoscine) overdosage. It is longer acting than physostigmine and is used in anaesthesia to reverse the non-depolarizing neuromuscular block. However, studies into the dose necessary to combating scopolamine intoxication are indicated.</text>
+<annotation id='3'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D005702</infon>
+<location offset='135' length='25' />
+<text>Galanthamine hydrobromide</text>
+</annotation>
+<annotation id='4'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D012601</infon>
+<location offset='292' length='11' />
+<text>scopolamine</text>
+</annotation>
+<annotation id='5'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D012601</infon>
+<location offset='305' length='8' />
+<text>hyoscine</text>
+</annotation>
+<annotation id='6'>
+<infon key="type">Disease</infon>
+<infon key="MESH">D062787</infon>
+<location offset='315' length='10' />
+<text>overdosage</text>
+</annotation>
+<annotation id='7'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D010830</infon>
+<location offset='352' length='13' />
+<text>physostigmine</text>
+</annotation>
+<annotation id='8'>
+<infon key="type">Chemical</infon>
+<infon key="MESH">D012601</infon>
+<location offset='500' length='11' />
+<text>scopolamine</text>
+</annotation>
+</passage>
+<relation id='R0'>
+<infon key="relation">CID</infon>
+<infon key="Chemical">D012601</infon>
+<infon key="Disease">D062787</infon>
+</relation>
+</document>
+</collection>

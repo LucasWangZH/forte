@@ -1,0 +1,15 @@
+VOCAB_FILE: "resources/pubmed_pmc_470k/vocab.txt"
+BERT_CONFIG_FILE: "resources/pubmed_pmc_470k/bert_config.json"
+BERT_WEIGHTS: "resources/pytorch_weight"
+
+
+resource_dir: "resources/"
+random_seed: 15213
+learning_rate: 0.0001
+weight_decay: 0.00001
+dropout: 0.4
+n_epochs: 30
+
+
+
+model_path: "resources/best_biobert_bc5cdr_model.ckpt"

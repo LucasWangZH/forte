@@ -48,11 +48,11 @@ def main():
     ner_trainer = CoNLLNERTrainer()
     ner_predictor = CoNLLNERPredictor()
     ner_evaluator = CoNLLNEREvaluator()
-
     train_pipe = TrainPipeline(train_reader=reader, trainer=ner_trainer,
                                dev_reader=reader, configs=config,
                                preprocessors=[vocab_processor],
-                               predictor=ner_predictor, evaluator=ner_evaluator)
+                               predictor=ner_predictor,
+                               evaluator=ner_evaluator)
     train_pipe.run()
 
 

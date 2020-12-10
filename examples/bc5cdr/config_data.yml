@@ -1,1 +1,8 @@
 train_path: "data/train/"
+val_path: "data/eval/"
+test_path: "data/test/"
+
+
+batch_size: 16
+test_batch_size: 16
+num_epochs: 100

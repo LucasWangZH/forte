@@ -21,6 +21,10 @@ from texar.torch.modules.embedders import WordEmbedder
 
 from forte.common.configuration import Config
 from forte.models.ner.conditional_random_field import ConditionalRandomField
+from torch.autograd import Variable
+from pytorch_pretrained_bert import BertModel
+from pytorch_pretrained_bert import BertTokenizer
+from pytorch_pretrained_bert import BertConfig
 
 
 class BiRecurrentConvCRF(nn.Module):
@@ -244,3 +248,62 @@ def recover_rnn_seq(seq, rev_order, hx=None, batch_first=False):
             else:
                 hx = hx.index_select(1, rev_order)
     return output, hx
+
+
+class BioBertBC5CDR(nn.Module):
+    def __init__(self, config, bert_state_dict, vocab_len,dropout=0.4,device = 'cpu'):
+        super().__init__()
+        self.bert = BertModel(config)
+        if bert_state_dict is not None:
+            self.bert.load_state_dict(bert_state_dict)
+        self.bert.eval()
+        self.num_layers = 2
+        self.directions = 2
+        self.embed_size = 768
+        self.hidden_size = 768
+        self.rnn = nn.LSTM(bidirectional=True, num_layers=self.num_layers,
+                           input_size=self.embed_size, hidden_size=self.hidden_size//2, batch_first=True,dropout=dropout)
+        self.fc = nn.Linear(self.hidden_size, vocab_len)
+        self.device = device
+        self.init_weights()
+
+    def init_weights(self):
+        for m in self.modules():
+            if type(m) in [nn.LSTM]:
+                for name, param in m.named_parameters():
+                    if 'weight_ih' in name:
+                        for i in range(self.num_layers):
+                            torch.nn.init.xavier_uniform_(param.data[i * (self.hidden_size // 2):
+                                                                     (i + 1) * (self.hidden_size // 2)])
+                    elif 'weight_hh' in name:
+                        for i in range(4):
+                            torch.nn.init.orthogonal_(param.data[i * (self.hidden_size // 2):
+                                                                 (i + 1) * (self.hidden_size // 2)])
+                    elif 'bias' in name:
+                        param.data.fill_(0)
+
+    def init_hidden(self, batch_size):
+        return (Variable(torch.zeros(self.num_layers * self.directions, batch_size, self.hidden_size // 2).to(self.device)),
+                Variable(torch.zeros(self.num_layers * self.directions, batch_size, self.hidden_size // 2).to(self.device)))
+
+    def forward(self, x, y):
+        '''
+        x: (N, T). int64
+        y: (N, T). int64
+
+        Returns
+        enc: (N, T, VOCAB)
+        '''
+        x = x.to(self.device)
+        y = y.to(self.device)
+
+        with torch.no_grad():
+            encoded_layers, _ = self.bert(x)
+            enc = encoded_layers[-1]
+        batch_size = x.shape[0]
+        hidden = self.init_hidden(batch_size)
+        enc, _ = self.rnn(enc,hidden)
+        logits = self.fc(enc)
+        y_hat = logits.argmax(-1)
+        return logits, y, y_hat
+

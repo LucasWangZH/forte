@@ -1,3 +1,6 @@
+# Author : Zhihao Wang
+# Date : 22/10/2020
+
 # Copyright 2019 The Forte Authors. All Rights Reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,19 +29,24 @@ from forte.data.data_pack import DataPack
 from forte.data.ontology import Annotation
 from forte.data.types import DataRequest
 from forte.models.ner import utils
-from forte.models.ner.model_factory import BiRecurrentConvCRF
+from forte.models.ner.model_factory import BioBertBC5CDR
 from forte.processors.base.batch_processor import FixedSizeBatchProcessor
 from ft.onto.base_ontology import Token, Sentence, EntityMention
+from collections import  OrderedDict
+import torch.nn as nn
+from examples.bc5cdr.bc5cdr_trainer import HParams
+from pytorch_pretrained_bert import BertConfig
+
+
+
+
+
 
 logger = logging.getLogger(__name__)
 
 
-class CoNLLNERPredictor(FixedSizeBatchProcessor):
+class BC5CDRPredictor(FixedSizeBatchProcessor):
     """
-       An Named Entity Recognizer trained according to `Ma, Xuezhe, and Eduard
-       Hovy. "End-to-end sequence labeling via bi-directional lstm-cnns-crf."
-       <https://arxiv.org/abs/1603.01354>`_.
-
        Note that to use :class:`CoNLLNERPredictor`, the :attr:`ontology` of
        :class:`Pipeline` must be an ontology that include
        ``ft.onto.base_ontology.Token`` and ``ft.onto.base_ontology.Sentence``.
@@ -47,17 +55,13 @@ class CoNLLNERPredictor(FixedSizeBatchProcessor):
     def __init__(self):
         super().__init__()
         self.model = None
-        self.word_alphabet, self.char_alphabet, self.ner_alphabet = (
-            None, None, None)
+        self.hp = None
         self.resource = None
-        self.config_model = None
-        self.config_data = None
-        self.normalize_func = None
         self.device = None
 
         self.train_instances_cache = []
 
-        self.batch_size = 3
+        self.batch_size = 1
 
     @staticmethod
     def _define_context() -> Type[Annotation]:
@@ -80,20 +84,7 @@ class CoNLLNERPredictor(FixedSizeBatchProcessor):
         self.resource = resources
         self.config_model = configs.config_model
         self.config_data = configs.config_data
-
-        resource_path = configs.config_model.resource_dir
-
-        keys = {"word_alphabet", "char_alphabet", "ner_alphabet",
-                "word_embedding_table"}
-
-        missing_keys = list(keys.difference(self.resource.keys()))
-
-        self.resource.load(keys=missing_keys, path=resource_path)
-
-        self.word_alphabet = resources.get("word_alphabet")
-        self.char_alphabet = resources.get("char_alphabet")
-        self.ner_alphabet = resources.get("ner_alphabet")
-        word_embedding_table = resources.get("word_embedding_table")
+        self.batch_size = self.config_data.test_batch_size
 
         if resources.get("device"):
             self.device = resources.get("device")
@@ -101,24 +92,24 @@ class CoNLLNERPredictor(FixedSizeBatchProcessor):
             self.device = torch.device('cuda') if torch.cuda.is_available() \
                 else torch.device('cpu')
 
-        self.normalize_func = utils.normalize_digit_word
+        self.hp = HParams(self.config_model.VOCAB_FILE)
 
         if "model" not in self.resource.keys():
-            def load_model(path):
-                model = BiRecurrentConvCRF(
-                    word_embedding_table, self.char_alphabet.size(),
-                    self.ner_alphabet.size(), self.config_model)
+            bert_config = BertConfig(self.config_model.BERT_CONFIG_FILE)
+            tmp_d = torch.load(self.config_model.BERT_WEIGHTS, map_location=self.device)
 
-                if os.path.exists(path):
-                    with open(path, "rb") as f:
-                        weights = torch.load(f, map_location=self.device)
-                        model.load_state_dict(weights)
-                return model
+            state_dict = OrderedDict()
+            for i in list(tmp_d.keys())[:199]:
+                x = i
+                if i.find('bert') > -1:
+                    x = '.'.join(i.split('.')[1:])
+                state_dict[x] = tmp_d[i]
 
-            self.resource.load(keys={"model": load_model}, path=resource_path)
-
+            self.model = BioBertBC5CDR(config=bert_config, bert_state_dict=state_dict,
+                                       vocab_len=len(self.hp.VOCAB), device=self.device)
         self.model = resources.get("model")
-        self.model.to(self.device)
+        if torch.cuda.is_available():
+            self.model.cuda()
         self.model.eval()
 
         utils.set_random_seed(self.config_model.random_seed)
@@ -127,36 +118,45 @@ class CoNLLNERPredictor(FixedSizeBatchProcessor):
     def predict(self, data_batch: Dict[str, Dict[str, List[str]]]) \
             -> Dict[str, Dict[str, List[np.array]]]:
         tokens = data_batch["Token"]
-
-        instances = []
-        for words in tokens["text"]:
-            char_id_seqs = []
-            word_ids = []
-            for word in words:
-                char_ids = []
-                for char in word:
-                    char_ids.append(self.char_alphabet.get_index(char))
-                if len(char_ids) > self.config_data.max_char_length:
-                    char_ids = char_ids[: self.config_data.max_char_length]
-                char_id_seqs.append(char_ids)
-
-                word = self.normalize_func(word)
-                word_ids.append(self.word_alphabet.get_index(word))
-
-            instances.append((word_ids, char_id_seqs))
-
+        sentences = tokens["text"]
+        sents = []
+        x = []
+        is_heads = []
+        seqlens = []
+        for sent in sentences:
+            tmp = ["[CLS]"] + list(sent) + ["[SEP]"]
+            tmpx = []
+            heads = []
+            for w in tmp:
+                token = self.hp.tokenizer.tokenize(w) if w not in ("[CLS]", "[SEP]") else [w]
+                is_head = [1] + [0] * (len(token) - 1)
+                xx = self.hp.tokenizer.convert_tokens_to_ids(token)
+                tmpx.extend(xx)
+                heads.extend(is_head)
+            sents.append(tmp)
+            x.append(tmpx)
+            is_heads.append(heads)
+            seqlens.append(len(tmpx))
+        max_len = np.array(seqlens).max()
+        #pad x
+        res = [np.array(sample + [0] * (max_len - len(sample))) for sample in x] # 0: <pad>
+        res = np.vstack(res)
+        x = torch.from_numpy(res).long()
         self.model.eval()
-        batch_data = self.get_batch_tensor(instances, device=self.device)
-        word, char, masks, unused_lengths = batch_data
-        preds = self.model.decode(word, char, mask=masks)
+        # batch_data = self.get_batch_tensor(sents, device=self.device)
+        _,_,yhat = self.model(x,torch.Tensor([1, 2, 3])) # just a dummy y value
+        yhat = list(yhat.cpu().detach().numpy())
 
         pred: Dict = {"Token": {"ner": [], "tid": []}}
-
         for i in range(len(tokens["tid"])):
+            y_hat = [hat for hd, hat in zip(is_heads[i], yhat[i]) if hd == 1]
+            y_hat = y_hat[1:]
             tids = tokens["tid"][i]
+            assert len(y_hat) == len(tids)+1
+
             ner_tags = []
             for j in range(len(tids)):
-                ner_tags.append(self.ner_alphabet.get_instance(preds[i][j]))
+                ner_tags.append(self.hp.idx2tag[y_hat[j]])
 
             pred["Token"]["ner"].append(np.array(ner_tags))
             pred["Token"]["tid"].append(np.array(tids))
@@ -215,71 +215,6 @@ class CoNLLNERPredictor(FixedSizeBatchProcessor):
                     entity = EntityMention(data_pack, current_entity_mention[0],
                                            token.span.end)
                     entity.ner_type = current_entity_mention[1]
-
-    def get_batch_tensor(
-            self, data: List[Tuple[List[int], List[List[int]]]],
-            device: Optional[torch.device] = None) -> \
-            Tuple[torch.Tensor, torch.Tensor, torch.Tensor, torch.Tensor]:
-        """Get the tensors to be fed into the model.
-
-        Args:
-            data: A list of tuple (word_ids, char_id_sequences)
-            device: The device for the tensors.
-
-        Returns:
-            A tuple where
-
-            - ``words``: A tensor of shape `[batch_size, batch_length]`
-              representing the word ids in the batch
-            - ``chars``: A tensor of shape
-              `[batch_size, batch_length, char_length]` representing the char
-              ids for each word in the batch
-            - ``masks``: A tensor of shape `[batch_size, batch_length]`
-              representing the indices to be masked in the batch. 1 indicates
-              no masking.
-            - ``lengths``: A tensor of shape `[batch_size]` representing the
-              length of each sentences in the batch
-        """
-        batch_size = len(data)
-        batch_length = max([len(d[0]) for d in data])
-        char_length = max(
-            [max([len(charseq) for charseq in d[1]]) for d in data]
-        )
-
-        char_length = min(
-            self.config_data.max_char_length,
-            char_length + self.config_data.num_char_pad,
-        )
-
-        wid_inputs = np.empty([batch_size, batch_length], dtype=np.int64)
-        cid_inputs = np.empty(
-            [batch_size, batch_length, char_length], dtype=np.int64
-        )
-
-        masks = np.zeros([batch_size, batch_length], dtype=np.float32)
-
-        lengths = np.empty(batch_size, dtype=np.int64)
-
-        for i, inst in enumerate(data):
-            wids, cid_seqs = inst
-
-            inst_size = len(wids)
-            lengths[i] = inst_size
-            # word ids
-            wid_inputs[i, :inst_size] = wids
-            wid_inputs[i, inst_size:] = self.word_alphabet.pad_id
-            for c, cids in enumerate(cid_seqs):
-                cid_inputs[i, c, : len(cids)] = cids
-                cid_inputs[i, c, len(cids):] = self.char_alphabet.pad_id
-            cid_inputs[i, inst_size:, :] = self.char_alphabet.pad_id
-            masks[i, :inst_size] = 1.0
-
-        words = torch.from_numpy(wid_inputs).to(device)
-        chars = torch.from_numpy(cid_inputs).to(device)
-        masks = torch.from_numpy(masks).to(device)
-        lengths = torch.from_numpy(lengths).to(device)
-
-        return words, chars, masks, lengths
 
     # TODO: change this to manageable size
     @classmethod

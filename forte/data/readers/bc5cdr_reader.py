@@ -17,7 +17,9 @@
 """
 The reader that reads CoNLL ner_data into our internal json data datasets.
 """
+import xml.etree.ElementTree as ET
 import codecs
+import nltk
 import logging
 import os
 from typing import Iterator, Any
@@ -45,66 +47,168 @@ class BC5CDRReader(PackReader):
         Returns: Iterator over files in the path with conll extensions.
         """
         logging.info("Reading .txt from %s", bc5bdr_directory)
-        return dataset_path_iterator(bc5bdr_directory, "txt")
+        return dataset_path_iterator(bc5bdr_directory, "xml")
 
     def _cache_key_function(self, bc5cdr_file: str) -> str:
         return os.path.basename(bc5cdr_file)
 
+    # def _parse_pack(self, file_path: str) -> Iterator[DataPack]:
+    #     pack = self.new_pack()
+    #     doc = codecs.open(file_path, "r", encoding="utf8")
+    #
+    #     text = ""
+    #     offset = 0
+    #     has_rows = False
+    #
+    #     sentence_begin = 0
+    #     sentence_cnt = 0
+    #
+    #     for line in doc:
+    #         line = line.strip()
+    #
+    #         if line != "" and not line.startswith("#"):
+    #             conll_components = line.split()
+    #
+    #             word = conll_components[0]
+    #             # pos = conll_components[1]
+    #             # chunk_id = conll_components[3]
+    #             ner_tag = conll_components[1]
+    #
+    #             word_begin = offset
+    #             word_end = offset + len(word)
+    #
+    #             # Add tokens.
+    #             token = Token(pack, word_begin, word_end)
+    #             # token.pos = pos
+    #             # token.chunk = chunk_id
+    #             token.ner = ner_tag
+    #
+    #             text += word + " "
+    #             offset = word_end + 1
+    #             has_rows = True
+    #         else:
+    #             if not has_rows:
+    #                 # Skip consecutive empty lines.
+    #                 continue
+    #             # add sentence
+    #             Sentence(pack, sentence_begin, offset - 1)
+    #
+    #             sentence_begin = offset
+    #             sentence_cnt += 1
+    #             has_rows = False
+    #
+    #     if has_rows:
+    #         # Add the last sentence if exists.
+    #         Sentence(pack, sentence_begin, offset - 1)
+    #         sentence_cnt += 1
+    #
+    #     pack.set_text(text, replace_func=self.text_replace_operation)
+    #
+    #     Document(pack, 0, len(text))
+    #
+    #     pack.pack_name = file_path
+    #     doc.close()
+    #
+    #     yield pack
+
+    def _parse_passage(self,passage):
+        label_classes = ['O', 'I-Disease', 'B-Disease', 'I-Chemical', 'B-Chemical']
+        label_out = label_classes[0]
+        tokens = []
+        labels = []
+        OFFSET = int(passage.find('offset').text)
+        start = 0
+        text = passage.find('text').text
+        for anno in passage.findall("annotation"):
+            type = anno.find("infon[@key='type']").text
+            if type == "Disease":
+                label_begin = label_classes[2]
+                label_end = label_classes[1]
+            elif type == "Chemical":
+                label_begin = label_classes[4]
+                label_end = label_classes[3]
+            location = anno.find('location')
+            offset = int(location.attrib['offset']) - OFFSET
+            length = int(location.attrib['length'])
+            end_pos = offset + length
+
+            if start < offset:
+                sub_token_list = nltk.word_tokenize(text[start:offset])
+                sub_labels = [label_out] * len(sub_token_list)
+                start = offset
+                tokens += sub_token_list
+                labels += sub_labels
+            start += length
+            sub_token_list = nltk.word_tokenize(text[offset:end_pos])
+            sub_labels = [label_end] * len(sub_token_list)
+            sub_labels[0] = label_begin
+            tokens += sub_token_list
+            labels += sub_labels
+        if start < len(text):
+            sub_token_list = nltk.word_tokenize(text[start:len(text)])
+            sub_labels = [label_out] * len(sub_token_list)
+            tokens += sub_token_list
+            labels += sub_labels
+        return tokens,labels
+
+
     def _parse_pack(self, file_path: str) -> Iterator[DataPack]:
-        pack = self.new_pack()
-        doc = codecs.open(file_path, "r", encoding="utf8")
-
-        text = ""
-        offset = 0
-        has_rows = False
-
-        sentence_begin = 0
-        sentence_cnt = 0
-
-        for line in doc:
-            line = line.strip()
-
-            if line != "" and not line.startswith("#"):
-                conll_components = line.split()
-
-                word = conll_components[0]
-                # pos = conll_components[1]
-                # chunk_id = conll_components[3]
-                ner_tag = conll_components[1]
-
-                word_begin = offset
-                word_end = offset + len(word)
-
-                # Add tokens.
-                token = Token(pack, word_begin, word_end)
-                # token.pos = pos
-                # token.chunk = chunk_id
-                token.ner = ner_tag
-
-                text += word + " "
-                offset = word_end + 1
-                has_rows = True
-            else:
-                if not has_rows:
-                    # Skip consecutive empty lines.
+        tree = ET.parse(file_path)
+        root = tree.getroot()
+        for doc in root.findall('document'):
+            for passage in doc.findall('passage'):
+                #if no annotationi in this passage
+                if passage.findall("annotation") == []:
                     continue
-                # add sentence
-                Sentence(pack, sentence_begin, offset - 1)
+                pack = self.new_pack()
+                tokens,labels = self._parse_passage(passage)
 
-                sentence_begin = offset
-                sentence_cnt += 1
+                text = ""
+                offset = 0
                 has_rows = False
 
-        if has_rows:
-            # Add the last sentence if exists.
-            Sentence(pack, sentence_begin, offset - 1)
-            sentence_cnt += 1
+                sentence_begin = 0
+                sentence_cnt = 0
 
-        pack.set_text(text, replace_func=self.text_replace_operation)
+                for index,tok in enumerate(tokens):
 
-        Document(pack, 0, len(text))
+                    if tok != "!" and tok != "." and tok != "?":
 
-        pack.pack_name = file_path
-        doc.close()
+                        word = tok
+                        ner_tag = labels[index]
 
-        yield pack
+                        word_begin = offset
+                        word_end = offset + len(word)
+
+                        # Add tokens.
+                        token = Token(pack, word_begin, word_end)
+                        # token.pos = pos
+                        # token.chunk = chunk_id
+                        token.ner = ner_tag
+
+                        text += word + " "
+                        offset = word_end + 1
+                        has_rows = True
+                    else:
+                        if not has_rows:
+                            # Skip consecutive empty lines.
+                            continue
+                        # add sentence
+                        Sentence(pack, sentence_begin, offset - 1)
+
+                        sentence_begin = offset
+                        sentence_cnt += 1
+                        has_rows = False
+
+                if has_rows:
+                    # Add the last sentence if exists.
+                    Sentence(pack, sentence_begin, offset - 1)
+                    sentence_cnt += 1
+
+                pack.set_text(text, replace_func=self.text_replace_operation)
+
+                Document(pack, 0, len(text))
+
+                pack.pack_name = file_path
+
+                yield pack
